@@ -1,8 +1,10 @@
-import { List } from "antd";
+import { Button, List, Typography } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AddNoteModal from "./AddNoteModal";
+
+const { Title } = Typography;
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -26,6 +28,7 @@ const Dashboard = () => {
         `https://note-taking-app-33zm.onrender.com/api/get-notes`,
         { headers }
       );
+    //   console.log({response});
       setNotes(response.data.notes);
       setSignedUser(response.data.user);
     } catch (err) {
@@ -37,6 +40,8 @@ const Dashboard = () => {
     navigate("/signIn");
     localStorage.removeItem("AccessToken");
   };
+
+//   console.log({signedUser})
 
   return (
     <div style={{ width: 450 }}>

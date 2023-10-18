@@ -10,9 +10,9 @@ const AddNoteModal = ({ signedUser, updateUI }) => {
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
 
-  const handleCreateNote = () => {
+  const handleCreateNote = async () => {
     setConfirmLoading(true);
-    createNote();
+    await createNote();
     setConfirmLoading(false);
     setOpen(false);
   };
@@ -29,6 +29,8 @@ const AddNoteModal = ({ signedUser, updateUI }) => {
         "https://note-taking-app-33zm.onrender.com/api/add-notes",
         body
       );
+      setText("");
+      setTitle("");
       updateUI(response.data);
     } catch (err) {
       console.log(err);
@@ -65,12 +67,15 @@ const AddNoteModal = ({ signedUser, updateUI }) => {
           </Button>,
         ]}
       >
+        <br />
         <Input
           placeholder="Enter title..."
           value={title}
           allowClear
           onChange={(e) => setTitle(e.target.value)}
         />
+        <br />
+        <br />
         <TextArea
           rows={5}
           placeholder="Write something...🤔"

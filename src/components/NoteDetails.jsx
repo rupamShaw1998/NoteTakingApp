@@ -10,7 +10,8 @@ const NoteDetails = () => {
   const [note, setNote] = useState({});
 
   useEffect(() => {
-    getNote();
+    if(id)
+        getNote();
   }, []);
 
   const getNote = async () => {
@@ -20,11 +21,14 @@ const NoteDetails = () => {
         `https://note-taking-app-33zm.onrender.com/api/get-notes/${id}`,
         { headers }
       );
+      console.log({response});
       setNote(response.data);
     } catch (err) {
       console.log(err);
     }
   };
+
+  console.log({id});
 
   return (
     <Card title={note.title} >

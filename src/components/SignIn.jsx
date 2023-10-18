@@ -15,7 +15,7 @@ const SignIn = () => {
     setIsLoading(true);
     try {
       const { email, password } = values;
-      const response = await axios.post("https://rupam-social-media.onrender.com/user/login",  { email, password });
+      const response = await axios.post("https://note-taking-app-33zm.onrender.com/api/login",  { email, password });
       localStorage.setItem("AccessToken", response.data.accessToken);
       alert("✅ You're successfully logged in :)");
       navigate("/dashboard");
