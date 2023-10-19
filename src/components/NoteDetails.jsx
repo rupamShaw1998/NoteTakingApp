@@ -8,6 +8,7 @@ const NoteDetails = () => {
   const authToken = localStorage.getItem("AccessToken");
 
   const [note, setNote] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if(id)
@@ -21,8 +22,8 @@ const NoteDetails = () => {
         `https://note-taking-app-33zm.onrender.com/api/get-notes/${id}`,
         { headers }
       );
-      console.log({response});
       setNote(response.data);
+      setIsLoading(false)
     } catch (err) {
       console.log(err);
     }
@@ -31,7 +32,7 @@ const NoteDetails = () => {
   console.log({id});
 
   return (
-    <Card style={{width: 375}} title={note.title} >
+    <Card loading={isLoading} style={{width: 375}} title={note.title} >
         <p>{note.content}</p>
     </Card>
   );
