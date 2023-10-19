@@ -31,7 +31,7 @@ const NoteDetails = () => {
   console.log({id});
 
   return (
-    <Card title={note.title} >
+    <Card style={{width: 375}} title={note.title} >
         <p>{note.content}</p>
     </Card>
   );

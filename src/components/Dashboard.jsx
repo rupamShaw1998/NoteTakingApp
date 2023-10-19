@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AddNoteModal from "./AddNoteModal";
+import { DeleteOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
 
@@ -41,10 +42,19 @@ const Dashboard = () => {
     localStorage.removeItem("AccessToken");
   };
 
+  const deleteNote = async (id) => {
+    try {
+      const response = await axios.delete(`https://note-taking-app-33zm.onrender.com/api/remove/${id}`);
+      getNotes();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 //   console.log({signedUser})
 
   return (
-    <div style={{ width: 450 }}>
+    <div style={{ width: 375 }}>
       <div style={{ display: "flex" }}>
         <Title level={4} italic style={{ color: "teal" }}>
           Welcome, <span style={{ color: "aqua" }}>{signedUser.name}</span>
@@ -59,7 +69,15 @@ const Dashboard = () => {
         bordered
         dataSource={notes}
         renderItem={(note) => (
-          <Link to={`/details/${note._id}`}><List.Item key={note._id}>{note.title}</List.Item></Link>
+          <List.Item 
+            key={note._id}
+            actions={[
+              <DeleteOutlined key="delete" onClick={() => deleteNote(note._id)} />,
+              
+            ]}
+          >
+            <Link to={`/details/${note._id}`}>{note.title}</Link>
+          </List.Item>
         )}
       />
     </div>
