@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AddNoteModal from "./AddNoteModal";
 import { DeleteOutlined } from "@ant-design/icons";
+import UpdateNoteModal from "./UpdateNoteModal";
 
 const { Title } = Typography;
 
@@ -13,6 +14,7 @@ const Dashboard = () => {
 
   const [notes, setNotes] = useState([]);
   const [signedUser, setSignedUser] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getNotes();
@@ -22,6 +24,14 @@ const Dashboard = () => {
     setNotes([...notes, newNote]);
   };
 
+  const updateEditedNotesUI = (updatedNote) => {
+    setNotes((prev) => {
+      let updatedUI = prev?.filter((ele) => ele._id !== updatedNote._id);
+      return [...updatedUI, updatedNote];
+    });
+  };
+
+
   const getNotes = async () => {
     try {
       const headers = { Authorization: `Bearer ${authToken}` };
@@ -29,9 +39,9 @@ const Dashboard = () => {
         `https://note-taking-app-33zm.onrender.com/api/get-notes`,
         { headers }
       );
-    //   console.log({response});
       setNotes(response.data.notes);
       setSignedUser(response.data.user);
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -51,13 +61,11 @@ const Dashboard = () => {
     }
   };
 
-//   console.log({signedUser})
-
   return (
     <div style={{ width: 375 }}>
       <div style={{ display: "flex" }}>
         <Title level={4} italic style={{ color: "teal" }}>
-          Welcome, <span style={{ color: "aqua" }}>{signedUser.name}</span>
+          Welcome, <span style={{ color: "orange" }}>{signedUser.name}</span>
         </Title>
         <Button onClick={signOutHandler} style={{ margin: "25px" }}>
           Sign Out
@@ -65,6 +73,7 @@ const Dashboard = () => {
       </div>
       <AddNoteModal signedUser={signedUser} updateUI={updateNotesUI} />
       <List
+        loading={isLoading}
         size="large"
         bordered
         dataSource={notes}
@@ -73,7 +82,7 @@ const Dashboard = () => {
             key={note._id}
             actions={[
               <DeleteOutlined key="delete" onClick={() => deleteNote(note._id)} />,
-              
+              <UpdateNoteModal noteId={note._id} defaultTitle={note.title} defaultContent={note.content} updateEditedNotesUI={updateEditedNotesUI} />
             ]}
           >
             <Link to={`/details/${note._id}`}>{note.title}</Link>

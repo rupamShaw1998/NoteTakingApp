@@ -59,7 +59,7 @@ const AddNoteModal = ({ signedUser, updateUI }) => {
           <Button
             key="submit"
             type="primary"
-            disabled={!text}
+            disabled={!text && !title}
             loading={confirmLoading}
             onClick={handleCreateNote}
           >
