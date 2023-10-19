@@ -19,7 +19,7 @@ function App() {
   }, []);
 
   const handleBackButton = (event) => {
-    if (window.location.pathname === '/dashboard') {
+    if (window.location.pathname === '/dashboard' && window.location.href === '/signIn') {
       alert("You're logged out. Please sign in to continue.");
       window.location.href = "/signIn";
       window.history.pushState(null, '', '/dashboard');
