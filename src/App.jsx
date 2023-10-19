@@ -19,10 +19,10 @@ function App() {
   }, []);
 
   const handleBackButton = (event) => {
-    if (window.location.pathname === '/home') {
+    if (window.location.pathname === '/dashboard') {
       alert("You're logged out. Please sign in to continue.");
       window.location.href = "/signIn";
-      window.history.pushState(null, '', '/home');
+      window.history.pushState(null, '', '/dashboard');
     }
   };
 
